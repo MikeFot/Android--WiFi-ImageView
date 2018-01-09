@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
@@ -30,6 +31,7 @@ public class WifiImageView extends AppCompatImageView {
 
     public WifiImageView(final Context context) {
         super(context);
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
     public WifiImageView(final Context context, final AttributeSet attrs) {
@@ -38,6 +40,7 @@ public class WifiImageView extends AppCompatImageView {
 
     public WifiImageView(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.WifiImageView, defStyleAttr, 0);
         tintColor = typedArray.getColor(R.styleable.WifiImageView_tint, 0);
         typedArray.recycle();

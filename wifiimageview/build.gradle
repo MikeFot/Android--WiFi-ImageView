@@ -6,12 +6,12 @@ final String appCompatLibVersion = "27.0.2"
 
 final int versionMajor = 1
 final int versionMinor = 0
-final int versionPatch = 1
+final int versionPatch = 0
 
-final String gitHubRepo = ''
-final String artifactName = 'android-smart-fragment-pager-adapter'
-final String artifactDesc = 'Smart ViewPager with Icons and Text'
-final String[] tags = ['viewpager', 'tablayout', 'fragment', 'java', 'android']
+final String gitHubRepo = 'MikeFot/Android--WiFi-ImageView'
+final String artifactName = 'android-wifi-imageview'
+final String artifactDesc = 'ImageView that listens to WiFi signal changes'
+final String[] tags = ['wifi', 'imageview', 'custom view', 'java', 'android']
 
 final String artifactGroupId = 'com.michaelfotiadis'
 final String semanticVersion = "${versionMajor}.${versionMinor}.${versionPatch}"
