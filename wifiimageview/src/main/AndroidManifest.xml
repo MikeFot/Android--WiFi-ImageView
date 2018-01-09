@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.michaelfotiadis.wifiimageview">
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
+    <application/>
+
+</manifest>

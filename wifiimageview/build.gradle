@@ -1,0 +1,128 @@
+apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+
+final String appCompatLibVersion = "27.0.2"
+
+final int versionMajor = 1
+final int versionMinor = 0
+final int versionPatch = 1
+
+final String gitHubRepo = ''
+final String artifactName = 'android-smart-fragment-pager-adapter'
+final String artifactDesc = 'Smart ViewPager with Icons and Text'
+final String[] tags = ['viewpager', 'tablayout', 'fragment', 'java', 'android']
+
+final String artifactGroupId = 'com.michaelfotiadis'
+final String semanticVersion = "${versionMajor}.${versionMinor}.${versionPatch}"
+final String gitHubUrl = "https://github.com/${gitHubRepo}"
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 27
+        versionCode 1
+        versionName semanticVersion
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            debuggable false
+        }
+
+        debug {
+            minifyEnabled false
+            debuggable true
+            versionNameSuffix "-debug"
+        }
+    }
+}
+
+dependencies {
+    implementation "com.android.support:support-compat:$appCompatLibVersion"
+    implementation "com.android.support:design:$appCompatLibVersion"
+    implementation 'com.github.pwittchen:reactivewifi-rx2:0.3.0'
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+
+            groupId artifactGroupId
+            artifactId artifactName
+            version semanticVersion
+
+            artifact javadocJar
+            artifact sourcesJar
+            artifact("$buildDir/outputs/aar/smartfragmentpageradapter-release.aar")
+        }
+    }
+    repositories {
+        maven {
+            url "$buildDir/repo"
+        }
+    }
+}
+
+bintray {
+    user = project.hasProperty('mfJCenterUser') ? mfJCenterUser : "<NO USER NAME>"
+    key = project.hasProperty('mfJCenterToken') ? mfJCenterToken : "<NO TOKEN>"
+
+    dryRun = false
+    publish = false
+    publications = ['mavenJava']
+
+    pkg {
+        repo = 'maven'
+        // userOrg = 'myorg' //An optional organization name when the repo belongs to one of the user's orgs
+        name = artifactName
+        desc = artifactDesc
+        websiteUrl = "${gitHubUrl}"
+        issueTrackerUrl = "${gitHubUrl}/issues"
+        vcsUrl = "${gitHubUrl}.git"
+        labels = tags
+        publish = true
+        licenses = ['Apache-2.0']
+        publicDownloadNumbers = true
+        githubRepo = "${gitHubRepo}"
+
+        version {
+            name = semanticVersion
+            //desc = 'optional, version-specific description'
+            mavenCentralSync {
+                sync = false
+                // Optional (true by default). Determines whether to sync the version to Maven Central.
+                user = 'userToken' //OSS user token
+                password = 'paasword' //OSS user password
+                close = '1'
+                // Optional property. By default the staging repository is closed and artifacts are released to Maven Central.
+                // You can optionally turn this behaviour off (by puting 0 as value) and release the version manually.
+            }
+        }
+    }
+
+    if (project.hasProperty("android")) { // Android libraries
+        task sourcesJar(type: Jar) {
+            classifier = 'sources'
+            from android.sourceSets.main.java.srcDirs
+        }
+
+        task javadoc(type: Javadoc) {
+            source = android.sourceSets.main.java.srcDirs
+            classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+        }
+    } else { // Java libraries
+        task sourcesJar(type: Jar, dependsOn: classes) {
+            classifier = 'sources'
+            from sourceSets.main.allSource
+        }
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+
+}
