@@ -1,0 +1,37 @@
+apply plugin: 'com.android.application'
+
+final String appCompatLibVersion = "27.0.2"
+boolean useMaven = Boolean.valueOf(project.getProperties().getOrDefault('com.michaelfotiadis.useMaven', "false"))
+
+android {
+    compileSdkVersion 27
+
+    defaultConfig {
+        applicationId "com.michaelfotiadis.wifiimageview.sample"
+        minSdkVersion 14
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    if (useMaven) {
+        implementation 'com.michaelfotiadis:android-wifi-imageview:1.0.1'
+    } else {
+        implementation project(':wifiimageview')
+    }
+    implementation "com.android.support:appcompat-v7:$appCompatLibVersion"
+
+}

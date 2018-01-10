@@ -6,7 +6,7 @@ final String appCompatLibVersion = "27.0.2"
 
 final int versionMajor = 1
 final int versionMinor = 0
-final int versionPatch = 0
+final int versionPatch = 3
 
 final String gitHubRepo = 'MikeFot/Android--WiFi-ImageView'
 final String artifactName = 'android-wifi-imageview'
@@ -22,7 +22,7 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode 1
+        versionCode 4
         versionName semanticVersion
         vectorDrawables.useSupportLibrary = true
     }

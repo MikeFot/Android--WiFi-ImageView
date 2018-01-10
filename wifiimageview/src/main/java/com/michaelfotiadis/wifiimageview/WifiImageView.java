@@ -51,7 +51,7 @@ public class WifiImageView extends AppCompatImageView {
      */
     public interface WifiLevelChangedCallback {
 
-        void onLevelChanged(WifiSignalLevel level);
+        void onLevelChanged(WiFiLevel level);
 
     }
 
@@ -62,6 +62,7 @@ public class WifiImageView extends AppCompatImageView {
      */
     public void setLevelChangedCallback(@NonNull final WifiLevelChangedCallback callback) {
         this.callbacks = new WeakReference<>(callback);
+        startWifiSignalLevelSubscription();
     }
 
     /**
@@ -88,10 +89,11 @@ public class WifiImageView extends AppCompatImageView {
         }
     }
 
+
     private void setLevel(final WifiSignalLevel level) {
 
         if (callbacks != null && callbacks.get() != null) {
-            callbacks.get().onLevelChanged(level);
+            callbacks.get().onLevelChanged(WiFiLevel.fromLevel(level.level));
         }
 
         @DrawableRes final int drawableRes = getDrawableForLevel(level);
