@@ -15,6 +15,18 @@ public class MainActivity extends AppCompatActivity {
     private TextView textView;
 
     @Override
+    public void onPause() {
+        super.onPause();
+        imageView.removeLevelChangedCallback();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        activateWiFiView();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -22,21 +34,13 @@ public class MainActivity extends AppCompatActivity {
         textView = findViewById(R.id.content);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    private void activateWiFiView() {
         imageView.setLevelChangedCallback(new WifiImageView.WifiLevelChangedCallback() {
             @Override
             public void onLevelChanged(WiFiLevel level) {
                 setText(level);
             }
         });
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        imageView.removeLevelChangedCallback();
     }
 
     private void setText(final WiFiLevel level) {

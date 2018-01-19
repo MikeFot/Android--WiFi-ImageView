@@ -1,0 +1,45 @@
+apply plugin: 'com.android.library'
+
+final String appCompatLibVersion = "27.0.2"
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0.0"
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            debuggable false
+        }
+
+        debug {
+            minifyEnabled false
+            debuggable true
+        }
+    }
+    buildToolsVersion '27.0.3'
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/LICENSE.txt'
+    }
+}
+
+dependencies {
+    api 'com.github.pwittchen:reactivewifi-rx2:0.3.0'
+    implementation "com.android.support:support-compat:$appCompatLibVersion"
+    implementation "com.android.support:design:$appCompatLibVersion"
+    implementation "com.android.support:support-annotations:$appCompatLibVersion"
+}
+
+apply from: 'publish.gradle'
+
+
+
+
+

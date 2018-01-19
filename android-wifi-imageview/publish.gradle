@@ -1,0 +1,110 @@
+
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
+final int versionMajor = 1
+final int versionMinor = 1
+final int versionPatch = 2
+
+final String gitHubRepo = 'MikeFot/Android--WiFi-ImageView'
+final String artifactName = 'android-wifi-imageview'
+final String artifactDesc = 'ImageView that listens to WiFi signal changes'
+final String[] tags = ['wifi', 'imageview', 'custom view', 'java', 'android']
+
+final String artifactGroupId = 'com.michaelfotiadis'
+final String semanticVersion = "${versionMajor}.${versionMinor}.${versionPatch}"
+final String gitHubUrl = "https://github.com/${gitHubRepo}"
+
+publishing {
+    publications {
+        Production(MavenPublication) {
+
+            groupId artifactGroupId
+            artifactId artifactName
+            version semanticVersion
+
+            artifact("$buildDir/outputs/aar/android-wifi-imageview-release.aar")
+
+            //generate pom nodes for dependencies
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                configurations.compile.allDependencies.each { dependency ->
+                    if (it.name != 'unspecified') {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', dependency.group)
+                        dependencyNode.appendNode('artifactId', dependency.name)
+                        dependencyNode.appendNode('version', dependency.version)
+                        dependencyNode.appendNode
+                    }
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            url "$buildDir/repo"
+        }
+    }
+}
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                name 'Android WiFi Status ImageView'
+                url "${gitHubUrl}"
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'MikeFot'
+                        name 'Michael Fotiadis'
+                        email 'michaelfotiadis.dev@gmail.com'
+                    }
+                }
+                scm {
+                    connection "${gitHubUrl}"
+                    developerConnection "${gitHubUrl}.git"
+                    url "${gitHubUrl}"
+                }
+            }
+        }
+    }
+}
+
+bintray {
+
+    user = project.hasProperty('mfJCenterUser') ? mfJCenterUser : "<NO USER NAME>"
+    key = project.hasProperty('mfJCenterToken') ? mfJCenterToken : "<NO TOKEN>"
+
+    publications = ['Production']
+    configurations = ['archives']
+    override = true
+
+    pkg {
+        repo = 'maven'
+        name = artifactName
+        desc = artifactDesc
+        websiteUrl = "${gitHubUrl}"
+        issueTrackerUrl = "${gitHubUrl}/issues"
+        vcsUrl = "${gitHubUrl}.git"
+        labels = tags
+        publish = true
+        dryRun = true
+        licenses = ['Apache-2.0']
+        publicDownloadNumbers = true
+        githubRepo = "${gitHubRepo}"
+
+        version {
+            name = semanticVersion
+            released = new Date()
+            vcsTag = semanticVersion
+        }
+    }
+}

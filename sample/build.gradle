@@ -5,7 +5,7 @@ boolean useMaven = Boolean.valueOf(project.getProperties().getOrDefault('com.mic
 
 android {
     compileSdkVersion 27
-
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.michaelfotiadis.wifiimageview.sample"
         minSdkVersion 14
@@ -16,11 +16,10 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
-
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable true
         }
     }
 
@@ -28,10 +27,11 @@ android {
 
 dependencies {
     if (useMaven) {
-        implementation 'com.michaelfotiadis:android-wifi-imageview:1.0.1'
+        implementation('com.michaelfotiadis:android-wifi-imageview:1.1.0') {
+            implementation 'com.github.pwittchen:reactivewifi-rx2:0.3.0'
+        }
     } else {
         implementation project(':wifiimageview')
     }
     implementation "com.android.support:appcompat-v7:$appCompatLibVersion"
-
 }

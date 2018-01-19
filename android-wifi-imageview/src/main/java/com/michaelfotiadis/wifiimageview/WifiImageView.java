@@ -84,8 +84,13 @@ public class WifiImageView extends AppCompatImageView {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         callbacks = null;
+        disposeSafely();
+    }
+
+    private void disposeSafely() {
         if (signalLevelSubscription != null && !signalLevelSubscription.isDisposed()) {
             signalLevelSubscription.dispose();
+            signalLevelSubscription = null;
         }
     }
 
@@ -137,6 +142,9 @@ public class WifiImageView extends AppCompatImageView {
     }
 
     private void startWifiSignalLevelSubscription() {
+
+        disposeSafely();
+
         signalLevelSubscription = ReactiveWifi.observeWifiSignalLevel(getContext().getApplicationContext())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

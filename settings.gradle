@@ -1,1 +1,1 @@
-include ':wifiimageview', ':sample'
+include ':android-wifi-imageview', ':sample'
