@@ -20,17 +20,19 @@ allprojects {
 
 And the following to your module Gradle file:
 
-`compile 'com.michaelfotiadis:android-wifi-imageview:1.0.0'`
-
-**Maven**
+```
+compile('com.michaelfotiadis:android-wifi-imageview:1.1.0') {
+        compile 'com.github.pwittchen:reactivewifi-rx2:0.3.0'          
+}'
 
 ```
-<dependency>
-  <groupId>com.michaelfotiadis</groupId>
-  <artifactId>android-wifi-imageview</artifactId>
-  <version>1.0.0</version>
-  <type>pom</type>
-</dependency>
+
+or this if you are using the Android Plugin for Gradle 3+:
+
+```
+implementation('com.michaelfotiadis:android-wifi-imageview:1.1.0') {
+        implementation 'com.github.pwittchen:reactivewifi-rx2:0.3.0'
+}'     
 ```
 
 **Bintray Project**
