@@ -37,3 +37,5 @@ implementation('com.michaelfotiadis:android-wifi-imageview:1.1.0') {
 
 **Bintray Project**
 https://bintray.com/mikefot/maven/android-wifi-imageview
+
+[![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-Android%20WiFi%20ImageView-green.svg?style=flat )]( https://android-arsenal.com/details/1/6707 )
